@@ -88,6 +88,8 @@ filelock==3.29.7
     # via
     #   huggingface-hub
     #   torch
+filetype==1.2.0
+    # via langchain-google-genai
 flatbuffers==25.12.19
     # via onnxruntime
 frozenlist==1.8.0
@@ -101,7 +103,9 @@ fsspec==2026.6.0
 google-auth==2.55.2
     # via google-genai
 google-genai==2.10.0
-    # via rag-jee (pyproject.toml)
+    # via
+    #   rag-jee (pyproject.toml)
+    #   langchain-google-genai
 googleapis-common-protos==1.75.0
     # via opentelemetry-exporter-otlp-proto-grpc
 greenlet==3.5.3
@@ -133,7 +137,6 @@ httpx-sse==0.4.3
     # via langchain-community
 huggingface-hub==1.22.0
     # via
-    #   langchain-huggingface
     #   sentence-transformers
     #   tokenizers
     #   transformers
@@ -175,9 +178,9 @@ langchain-core==1.4.9
     #   langchain-chroma
     #   langchain-classic
     #   langchain-community
-    #   langchain-huggingface
+    #   langchain-google-genai
     #   langchain-text-splitters
-langchain-huggingface==1.2.2
+langchain-google-genai==4.2.7
     # via rag-jee (pyproject.toml)
 langchain-protocol==0.0.18
     # via langchain-core
@@ -324,6 +327,7 @@ pydantic==2.13.4
     #   google-genai
     #   langchain-classic
     #   langchain-core
+    #   langchain-google-genai
     #   langsmith
     #   openai
     #   pydantic-extra-types
@@ -445,7 +449,6 @@ threadpoolctl==3.6.0
 tokenizers==0.22.2
     # via
     #   chromadb
-    #   langchain-huggingface
     #   transformers
 torch==2.13.0
     # via sentence-transformers

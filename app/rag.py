@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_google_genai import GoogleGenAIEmbeddings
 from langchain_chroma import Chroma
 
 load_dotenv()
@@ -38,7 +38,7 @@ def index_pdfs():
 
     chunks = latex_splitter.split_documents(documents)
 
-    embeddings = HuggingFaceEmbeddings(model_name="BAAI/bge-small-en-v1.5")
+    embeddings = GoogleGenAIEmbeddings(model_name="models/text-embedding-004", google_api_key = os.getenv("GEMINI_API_KEY"))
     vectorstore = Chroma.from_documents(chunks, embeddings, persist_directory=DB_DIR)
     
     return f"Successfully indexed {len(chunks)} chunks from source documents."
@@ -47,7 +47,7 @@ def get_context(query: str, k: int = 3):
     '''
     Retrieves relevant formula/problem context based on user query.
     '''
-    embeddings = HuggingFaceEmbeddings(model_name="BAAI/bge-small-en-v1.5")
+    embeddings = GoogleGenAIEmbeddings(model_name="models/text-embedding-004", google_api_key = os.getenv("GEMINI_API_KEY"))
     vectorstore = Chroma(persist_directory=DB_DIR, embedding_function=embeddings)
     retriever = vectorstore.as_retriever(search_kwargs={"k": k})
     return retriever.invoke(query)
