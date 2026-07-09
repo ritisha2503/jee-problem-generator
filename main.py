@@ -27,6 +27,14 @@ def serve_ui():
         <title>MathGen-RAG Workspace</title>
         <script src="https://cdn.tailwindcss.com"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <script>
+            window.MathJax = {
+                tex : {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']],
+                    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+                }
+            };
+        </script>
         <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
         <script>
             tailwind.config = {
@@ -117,6 +125,14 @@ def serve_ui():
         </main>
 
         <script>
+            // Helper function to convert markdown syntax to HTML formatting tags
+            function formatMarkdown(text) {
+                if (!text) return "";
+                return text
+                    .replace(/\\\*\\\*(.*?)\\\*\\\*/g, '<strong>$1</strong>') // Matches **bold**
+                    .replace(/\\\*(.*?)\\\*/g, '<em>$1</em>');               // Matches *italics*
+            }
+
             async function generateQuestion() {
                 const placeholder = document.getElementById('placeholderState');
                 const loading = document.getElementById('loadingState');
@@ -148,8 +164,9 @@ def serve_ui():
                         solPart = splitArr[1].trim();
                     }
 
-                    document.getElementById('problemText').innerText = probPart;
-                    document.getElementById('solutionText').innerText = solPart;
+                    // CHANGED: Run formatting wrappers and change innerText to innerHTML
+                    document.getElementById('problemText').innerHTML = formatMarkdown(probPart);
+                    document.getElementById('solutionText').innerHTML = formatMarkdown(solPart);
 
                     loading.classList.add('hidden');
                     workspace.classList.remove('hidden');
