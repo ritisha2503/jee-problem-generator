@@ -9,15 +9,14 @@ load_dotenv()
 def run_integration_test():
     print("Starting JEE Adv RAG integration Test...")
 
-    if not os.getenv("OPENROUTER_API_KEY"):
-        print("Error: OPENROUTER_API_KEY is missing from your .env file")
-        return
+    # if not os.getenv("OPENROUTER_API_KEY"):
+    #     print("Error: OPENROUTER_API_KEY is missing from your .env file")
+    #     return
 
-    print("\n[Step 1/3] Indexing Mathematics source PDFs from 'data/'...")
-    index_status = index_pdfs()
-    print(f"Status: {index_status}")
+    # print("\n[Step 1/3] Indexing Mathematics source PDFs from 'data/'...")
+    # index_status = index_pdfs()
+    # print(f"Status: {index_status}")
     
-    # 3. Simulate a specific JEE Advanced Query Topic
     test_topic = "Complex Numbers geometry and triangle inequalities"
     print(f"\n[Step 2/3] Fetching LaTeX-split context for topic: '{test_topic}'...")
     
@@ -32,9 +31,8 @@ def run_integration_test():
             print(f"--- Ingested Context Snippet {idx} ---")
             print(chunk.page_content[:200].replace('\n', ' ') + "...")
 
-    # 4. Route Context to OpenRouter Models
     # Available mapped models in router: 'gemini-flash-lite', 'qwen', 'kimi'
-    selected_engine = "qwen" 
+    selected_engine = "gemini-flash-lite" 
     print(f"\n[Step 3/3] Prompting model engine variant: '{selected_engine}' via OpenRouter...")
     
     try:
