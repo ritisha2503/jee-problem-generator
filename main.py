@@ -74,6 +74,8 @@ def serve_ui():
                         <div class="relative">
                             <select name="model" id="model" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-3 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-jeeBlue appearance-none font-medium">
                                 <option value="gemini-flash-lite">⚡ Gemini 2.5 Flash</option>
+                                <option value="kimi">🌙 Kimi Chat</option>
+                                <option value="qwen">🤖 Qwen Long-Context</option>
                             </select>
                             <i class="fa-solid fa-chevron-down absolute right-3 top-4 text-slate-400 pointer-events-none text-xs"></i>
                         </div>
@@ -128,9 +130,20 @@ def serve_ui():
             // Helper function to convert markdown syntax to HTML formatting tags
             function formatMarkdown(text) {
                 if (!text) return "";
-                return text
-                    .replace(/\\\*\\\*(.*?)\\\*\\\*/g, '<strong>$1</strong>') // Matches **bold**
-                    .replace(/\\\*(.*?)\\\*/g, '<em>$1</em>');               // Matches *italics*
+                
+                // Handle bold (**text**)
+                let parts = text.split("**");
+                for (let i = 1; i < parts.length; i += 2) {
+                    parts[i] = "<strong>" + parts[i] + "</strong>";
+                }
+                text = parts.join("");
+                
+                // Handle italics (*text*)
+                let subParts = text.split("*");
+                for (let i = 1; i < subParts.length; i += 2) {
+                    subParts[i] = "<em>" + subParts[i] + "</em>";
+                }
+                return subParts.join("");
             }
 
             async function generateQuestion() {
@@ -164,7 +177,7 @@ def serve_ui():
                         solPart = splitArr[1].trim();
                     }
 
-                    // CHANGED: Run formatting wrappers and change innerText to innerHTML
+                    // Run formatting wrappers and change innerText to innerHTML
                     document.getElementById('problemText').innerHTML = formatMarkdown(probPart);
                     document.getElementById('solutionText').innerHTML = formatMarkdown(solPart);
 
