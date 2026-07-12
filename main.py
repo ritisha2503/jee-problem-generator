@@ -45,7 +45,7 @@ def serve_ui():
     <body class="bg-slate-50 min-h-screen text-slate-800">
 
         <header class="bg-jeeDark text-white shadow-md py-4 px-6 mb-8 border-b border-slate-800">
-            <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="max-w-6xl mx-auto flex items-center">
                 <div class="flex items-center gap-3">
                     <div class="bg-jeeBlue p-2 rounded-lg text-white">
                         <i class="fa-solid fa-square-root-variable text-xl"></i>
@@ -54,9 +54,6 @@ def serve_ui():
                         <h1 class="text-lg font-bold tracking-tight">MathGen-RAG</h1>
                         <p class="text-xs text-slate-400">JEE Advanced Conceptual Problem Factory</p>
                     </div>
-                </div>
-                <div class="text-xs bg-slate-800 text-slate-300 px-3 py-1.5 rounded-full border border-slate-700">
-                    <span class="inline-block w-2 h-2 bg-emerald-500 rounded-full mr-2 animate-pulse"></span>Vercel Production Active
                 </div>
             </div>
         </header>
@@ -73,9 +70,9 @@ def serve_ui():
                         <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Model Blueprint</label>
                         <div class="relative">
                             <select name="model" id="model" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-3 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-jeeBlue appearance-none font-medium">
-                                <option value="gemini-flash-lite">Gemini 2.5 Flash</option>
-                                <option value="kimi">Kimi Chat</option>
-                                <option value="qwen">Qwen Long-Context</option>
+                                <option value="google/gemini-2.5-flash-lite">Gemini 2.5 Flash Lite</option>
+                                <option value="moonshotai/kimi-k2.7-code">Kimi K2.7 Code</option>
+                                <option value="qwen/qwen3.6-flash">Qwen 3.6 Flash</option>
                             </select>
                             <i class="fa-solid fa-chevron-down absolute right-3 top-4 text-slate-400 pointer-events-none text-xs"></i>
                         </div>

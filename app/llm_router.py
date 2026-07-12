@@ -1,15 +1,10 @@
 import os
-from google import genai
-from google.genai import types
+from openai import OpenAI
 from dotenv import load_dotenv
 
 load_dotenv()
 
 def generate_math_problem(model_choice: str, topic: str, context_documents: list) -> str:
-    """
-    Directly routes to Google AI Studio's production endpoints to bypass 
-    congested third-party proxy rate limits.
-    """
     context_str = "\n---\n".join([doc.page_content for doc in context_documents])
     
     system_prompt = (
@@ -23,21 +18,22 @@ def generate_math_problem(model_choice: str, topic: str, context_documents: list
     )
     
     user_prompt = f"Target Topic: {topic}\n\nReference Material/Context:\n{context_str}"
-    
+
+    client = OpenAI(
+        base_url = "https://openrouter.ai/api/v1",
+        api_key=os.getenv("OPENROUTER_API_KEY")
+    )
+
     try:
-        # Initialize the native Google GenAI client
-        client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
-        
-        # We target gemini-2.5-flash (optimized for ultra-fast RAG task handling)
-        response = client.models.generate_content(
-            model='gemini-2.5-flash',
-            contents=user_prompt,
-            config=types.GenerateContentConfig(
-                system_instruction=system_prompt,
-                temperature=0.7
-            )
+        completion = client.chat.completions.create(
+            model = model_choice,
+            messages = [
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_prompt}
+            ],
+            max_tokens=8192
         )
-        return response.text
+        return completion.choices[0].message.content
 
     except Exception as e:
-        return f"Direct Gemini SDK Error: {str(e)}"
+        return f"Error: {str(e)}"
